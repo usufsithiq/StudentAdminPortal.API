@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using StudentAdminPortal.API.DomainModels;
+using StudentAdminPortal.API.Profiles.AfterMaps;
 
 namespace StudentAdminPortal.API.Profiles
 {
@@ -13,6 +14,13 @@ namespace StudentAdminPortal.API.Profiles
                 .ReverseMap();
             CreateMap<DataModels.Address, Address>()
                 .ReverseMap();
+            CreateMap<UpdateStudentRequest, DataModels.Student>()
+                .AfterMap<UpdateStudentRequestAfterMap>();
+
+            //CreateMap<UpdateStudentRequest, DataModels.Student>()
+            //    .ForMember(dest => dest.Address.PhysicalAddress, opt => opt.MapFrom(src => src.PhysicalAddress))
+            //    .ForMember(dest => dest.Address.PostalAddress, opt => opt.MapFrom(src => src.PostalAddress));
+
         }
     }
 }
