@@ -28,7 +28,7 @@ namespace StudentAdminPortal.API.Controllers
         }
 
         [HttpGet]
-        [Route("[controller]/{studentId:guid}")]
+        [Route("[controller]/{studentId:guid}"), ActionName("GetStudentAsync")]
         public async Task<IActionResult> GetStudentAsync([FromRoute] Guid studentId)
         {
             var student = await _studentRepository.GetStudentAsync(studentId);
@@ -43,15 +43,15 @@ namespace StudentAdminPortal.API.Controllers
         [Route("[controller]/{studentId:guid}")]
         public async Task<IActionResult> UpdateStudentAsync([FromRoute] Guid studentId, [FromBody] UpdateStudentRequest request)
         {
-            if(await _studentRepository.Exists(studentId))
+            if (await _studentRepository.Exists(studentId))
             {
-              var updatedStudent = await _studentRepository.UpdateStudent(studentId, _mapper.Map<DataModels.Student>(request));
-                if(updatedStudent!=null)
+                var updatedStudent = await _studentRepository.UpdateStudent(studentId, _mapper.Map<DataModels.Student>(request));
+                if (updatedStudent != null)
                 {
                     return Ok(_mapper.Map<Student>(updatedStudent));
                 }
             }
-                return NotFound(ModelState);
+            return NotFound(ModelState);
         }
 
         [HttpDelete]
@@ -64,6 +64,15 @@ namespace StudentAdminPortal.API.Controllers
                 return Ok(_mapper.Map<Student>(student));
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        [Route("[controller]/Add")]
+        public async Task<IActionResult> AddStudentAsync([FromBody] AddStudentRequest request)
+        {
+            var student = await _studentRepository.AddStudemt(_mapper.Map<DataModels.Student>(request));
+            return CreatedAtAction(nameof(GetStudentAsync), new { studentId = student.Id }, _mapper.Map<Student>(student));
+
         }
     }
 }

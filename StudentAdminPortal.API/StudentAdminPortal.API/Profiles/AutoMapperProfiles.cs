@@ -16,6 +16,8 @@ namespace StudentAdminPortal.API.Profiles
                 .ReverseMap();
             CreateMap<UpdateStudentRequest, DataModels.Student>()
                 .AfterMap<UpdateStudentRequestAfterMap>();
+            CreateMap<AddStudentRequest, DataModels.Student>()
+                .AfterMap<AddStudentRequestAfterMap>();
 
             //CreateMap<UpdateStudentRequest, DataModels.Student>()
             //    .ForMember(dest => dest.Address.PhysicalAddress, opt => opt.MapFrom(src => src.PhysicalAddress))
